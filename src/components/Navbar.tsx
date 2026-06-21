@@ -33,7 +33,8 @@ export function Navbar() {
   };
 
   return (
-    <nav className="fixed top-0 z-[100] w-full bg-white/80 backdrop-blur-md border-b border-gray-100 px-6 h-16">
+    // Ganti className pada elemen <nav> dengan yang ini:
+    <nav className="fixed top-0 z-[100] w-full bg-white md:bg-white/80 md:backdrop-blur-md border-b border-gray-100 shadow-sm md:shadow-none px-6 h-16">
       <div className="max-w-7xl mx-auto h-full flex items-center justify-between">
         
         <Link href="/" className="z-[110]" onClick={() => setIsOpen(false)}>
