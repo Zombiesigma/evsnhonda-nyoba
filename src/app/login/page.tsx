@@ -2,14 +2,13 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
-import { Chrome, Lock, Mail, Loader2, ShieldCheck } from 'lucide-react';
+import { Lock, Mail, Loader2, ShieldCheck } from 'lucide-react';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -33,20 +32,6 @@ export default function LoginPage() {
       });
     } finally {
       setLoading(false);
-    }
-  };
-
-  const handleGoogleLogin = async () => {
-    const provider = new GoogleAuthProvider();
-    try {
-      await signInWithPopup(auth, provider);
-      router.push('/admin');
-    } catch (error: any) {
-      toast({
-        variant: "destructive",
-        title: "Google Login Gagal",
-        description: error.message,
-      });
     }
   };
 
@@ -112,23 +97,6 @@ export default function LoginPage() {
               {loading ? <Loader2 className="animate-spin h-5 w-5" /> : "Sign In to Portal"}
             </Button>
           </form>
-
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <span className="w-full border-t border-gray-100"></span>
-            </div>
-            <div className="relative flex justify-center text-[10px] font-bold uppercase tracking-widest">
-              <span className="bg-white px-3 text-gray-300">or</span>
-            </div>
-          </div>
-
-          <Button
-            variant="outline"
-            className="w-full h-12 md:h-14 rounded-xl md:rounded-2xl gap-2 md:gap-3 border-gray-100 hover:bg-gray-50 font-bold text-xs md:text-sm"
-            onClick={handleGoogleLogin}
-          >
-            <Chrome className="w-4 h-4 md:w-5 md:h-5" /> Continue with Google
-          </Button>
 
           <div className="text-center pt-2">
             <p className="text-[10px] text-gray-300 font-bold uppercase tracking-widest">
