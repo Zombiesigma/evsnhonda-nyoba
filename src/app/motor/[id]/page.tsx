@@ -1,3 +1,4 @@
+
 "use client";
 
 import { use, useState, useMemo, useEffect } from 'react';
@@ -7,7 +8,7 @@ import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { CreditCalculator } from '@/components/CreditCalculator';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { ChevronLeft, Plus, ShieldCheck, Loader2, Orbit, Cpu, Target, Layers } from 'lucide-react';
+import { ChevronLeft, Plus, ShieldCheck, Loader2, Orbit, Cpu, Target, Layers, FileText } from 'lucide-react';
 import { useLanguage } from '@/app/context/LanguageContext';
 import { useFirestore, useDoc } from '@/firebase';
 import { doc } from 'firebase/firestore';
@@ -38,9 +39,19 @@ export default function MotorcycleDetailPage({ params }: { params: Promise<{ id:
 
   const activeVariant = useMemo(() => {
     if (!bike) return { name: 'Standard', price: 0, color: 'Base' };
-    return bike.variants && bike.variants[activeVariantIndex]
-      ? bike.variants[activeVariantIndex]
-      : { name: 'Standard', price: bike.startingPrice || 0, color: 'Base' };
+    
+    const basePrice = Number(bike.startingPrice || 0);
+    
+    // Attempt to get from variants array if available
+    if (bike.variants && bike.variants[activeVariantIndex]) {
+      const variant = bike.variants[activeVariantIndex];
+      return {
+        ...variant,
+        price: Number(variant.price || basePrice)
+      };
+    }
+    
+    return { name: 'Standard', price: basePrice, color: 'Base' };
   }, [bike, activeVariantIndex]);
 
   if (loading) return (
@@ -78,7 +89,7 @@ export default function MotorcycleDetailPage({ params }: { params: Promise<{ id:
 
         <div className="grid lg:grid-cols-2 gap-10 md:gap-16 items-start">
           {/* Visual Gallery */}
-          <div className="space-y-6 animate-expo-entry">
+          <div className="space-y-6 animate-expo-entry lg:sticky lg:top-24">
             <div className="relative aspect-[16/11] bg-zinc-50 rounded-[32px] overflow-hidden border border-zinc-100 shadow-sm">
               <Image 
                 src={finalGallery[activeImageIndex] || finalGallery[0]} 
@@ -109,7 +120,7 @@ export default function MotorcycleDetailPage({ params }: { params: Promise<{ id:
             </div>
           </div>
 
-          {/* Info & Acquisition */}
+          {/* Info, Price, and Credit Simulation */}
           <div className="space-y-10 animate-expo-entry" style={{ animationDelay: '100ms' }}>
             <div className="space-y-4">
               <h1 className="text-4xl md:text-6xl font-bold tracking-tight leading-none">{bike.name}</h1>
@@ -130,21 +141,11 @@ export default function MotorcycleDetailPage({ params }: { params: Promise<{ id:
             </div>
 
             <div className="space-y-6">
-              <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-zinc-400 flex items-center gap-2">
-                <Target className="w-3.5 h-3.5" /> Technical Matrix
-              </h3>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                {Object.entries(specLabels).map(([key, label]) => {
-                  const val = bike.specs?.[key];
-                  if (!val) return null;
-                  return (
-                    <div key={key} className="bg-zinc-50 p-4 rounded-2xl border border-zinc-100">
-                      <p className="text-[9px] font-bold text-zinc-400 uppercase tracking-widest mb-1">{label}</p>
-                      <p className="text-xs font-bold text-black">{val}</p>
-                    </div>
-                  );
-                })}
-              </div>
+              <CreditCalculator
+                initialPrice={activeVariant.price}
+                motorcycleName={bike.name}
+                leasingTable={bike.leasingTable}
+              />
             </div>
 
             <div className="pt-6">
@@ -155,10 +156,10 @@ export default function MotorcycleDetailPage({ params }: { params: Promise<{ id:
           </div>
         </div>
 
-        {/* Detailed Spec & Simulation */}
+        {/* Detailed Specs & Features */}
         <section className="mt-20 py-20 border-t border-zinc-100">
-          <div className="grid lg:grid-cols-3 gap-16">
-            <div className="lg:col-span-2 space-y-12">
+          <div className="grid lg:grid-cols-2 gap-16">
+            <div className="space-y-12">
                <div className="space-y-6">
                   <h2 className="text-2xl font-bold tracking-tight flex items-center gap-3">
                     <div className="w-10 h-10 rounded-xl bg-zinc-100 flex items-center justify-center">
@@ -179,13 +180,26 @@ export default function MotorcycleDetailPage({ params }: { params: Promise<{ id:
                </div>
             </div>
 
-            <div className="lg:col-span-1">
-              <div className="sticky top-24">
-                <CreditCalculator
-                  initialPrice={activeVariant.price}
-                  motorcycleName={bike.name}
-                  leasingTable={bike.leasingTable}
-                />
+            <div className="space-y-12">
+              <div className="space-y-6">
+                <h2 className="text-2xl font-bold tracking-tight flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-zinc-100 flex items-center justify-center">
+                    <FileText className="w-5 h-5 text-black" />
+                  </div>
+                  Technical Matrix
+                </h2>
+                <div className="grid grid-cols-2 gap-3">
+                  {Object.entries(specLabels).map(([key, label]) => {
+                    const val = bike.specs?.[key];
+                    if (!val) return null;
+                    return (
+                      <div key={key} className="bg-zinc-50 p-4 rounded-2xl border border-zinc-100">
+                        <p className="text-[9px] font-bold text-zinc-400 uppercase tracking-widest mb-1">{label}</p>
+                        <p className="text-xs font-bold text-black">{val}</p>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             </div>
           </div>
