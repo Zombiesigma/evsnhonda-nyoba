@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useMemo, useState } from "react";
@@ -89,99 +88,98 @@ export default function Home() {
             </div>
           </div>
 
-            {/* Elegant Search Selector */}
-            <div className="max-w-md mx-auto w-full pt-4">
-              <Popover open={open} onOpenChange={setOpen}>
-                <PopoverTrigger asChild>
-                  <button className="w-full h-14 flex items-center justify-between rounded-2xl border border-neutral-200 bg-white/80 backdrop-blur-xl px-6 text-[10px] font-bold uppercase tracking-widest text-neutral-400 hover:bg-white hover:border-black/10 transition-all shadow-2xl shadow-black/5 group">
-                    <div className="flex items-center gap-4 truncate">
-                      <Search className="h-4 w-4 shrink-0 text-neutral-300 group-hover:text-black transition-colors" />
-                      <span>Search unit (PCX, Beat, CRF…)</span>
-                    </div>
-                    <ChevronDown className="ml-2 h-4 w-4 shrink-0 text-neutral-200" />
-                  </button>
-                </PopoverTrigger>
-                <PopoverContent
-                  className="w-[calc(100vw-48px)] md:w-[448px] p-0 rounded-2xl border-neutral-100 shadow-2xl overflow-hidden"
-                  align="center"
-                >
-                  <div className="flex items-center border-b border-neutral-50 px-4 bg-neutral-50/30 h-12">
-                    <Search className="mr-2 h-4 w-4 shrink-0 text-neutral-300" />
-                    <Input
-                      placeholder="Ketik nama unit..."
-                      className="h-full w-full border-none bg-transparent focus-visible:ring-0 text-xs font-bold placeholder:text-neutral-300"
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      autoFocus
-                    />
-                    {searchQuery && (
-                      <button
-                        onClick={() => setSearchQuery("")}
-                        className="p-2 hover:bg-neutral-100 rounded-full transition-colors"
-                      >
-                        <X className="h-4 w-4 text-neutral-300" />
-                      </button>
+          {/* Elegant Search Selector */}
+          <div className="max-w-md mx-auto w-full pt-4">
+            <Popover open={open} onOpenChange={setOpen}>
+              <PopoverTrigger asChild>
+                <button className="w-full h-14 flex items-center justify-between rounded-2xl border border-neutral-200 bg-white/80 backdrop-blur-xl px-6 text-[10px] font-bold uppercase tracking-widest text-neutral-400 hover:bg-white hover:border-black/10 transition-all shadow-2xl shadow-black/5 group">
+                  <div className="flex items-center gap-4 truncate">
+                    <Search className="h-4 w-4 shrink-0 text-neutral-300 group-hover:text-black transition-colors" />
+                    <span>Search unit (PCX, Beat, CRF…)</span>
+                  </div>
+                  <ChevronDown className="ml-2 h-4 w-4 shrink-0 text-neutral-200" />
+                </button>
+              </PopoverTrigger>
+              <PopoverContent
+                className="w-[calc(100vw-48px)] md:w-[448px] p-0 rounded-2xl border-neutral-100 shadow-2xl overflow-hidden"
+                align="center"
+              >
+                <div className="flex items-center border-b border-neutral-50 px-4 bg-neutral-50/30 h-12">
+                  <Search className="mr-2 h-4 w-4 shrink-0 text-neutral-300" />
+                  <Input
+                    placeholder="Ketik nama unit..."
+                    className="h-full w-full border-none bg-transparent focus-visible:ring-0 text-xs font-bold placeholder:text-neutral-300"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    autoFocus
+                  />
+                  {searchQuery && (
+                    <button
+                      onClick={() => setSearchQuery("")}
+                      className="p-2 hover:bg-neutral-100 rounded-full transition-colors"
+                    >
+                      <X className="h-4 w-4 text-neutral-300" />
+                    </button>
+                  )}
+                </div>
+                <ScrollArea className="h-[280px]">
+                  <div className="p-2">
+                    <button
+                      onClick={() => handleSelectVehicle("all")}
+                      className="w-full flex items-center gap-3 px-4 py-3 text-[10px] font-bold text-neutral-900 hover:bg-neutral-50 rounded-xl transition-colors text-left uppercase tracking-widest"
+                    >
+                      <div className="w-8 h-8 rounded-lg bg-neutral-100 flex items-center justify-center">
+                        <Orbit className="h-4 w-4 text-neutral-400" />
+                      </div>
+                      Lihat Katalog Lengkap
+                    </button>
+
+                    {loading ? (
+                      <div className="flex items-center justify-center py-10">
+                        <Loader2 className="h-5 w-5 animate-spin text-neutral-200" />
+                      </div>
+                    ) : filteredMotorcycles.length === 0 ? (
+                      <div className="py-12 text-center text-[10px] font-bold uppercase tracking-widest text-neutral-300">
+                        Unit Tidak Ditemukan
+                      </div>
+                    ) : (
+                      filteredMotorcycles.map((m: any) => (
+                        <button
+                          key={m.id}
+                          onClick={() => handleSelectVehicle(m.id)}
+                          className="w-full flex items-center justify-between px-4 py-3 hover:bg-neutral-50 rounded-xl transition-colors group text-left"
+                        >
+                          <div className="flex flex-col">
+                            <span className="text-neutral-900 font-bold text-sm">{m.name}</span>
+                            <span className="text-[9px] font-bold uppercase tracking-widest text-neutral-300">
+                              {m.category}
+                            </span>
+                          </div>
+                          <ArrowRight className="h-4 w-4 text-neutral-200 opacity-0 group-hover:opacity-100 transition-all" />
+                        </button>
+                      ))
                     )}
                   </div>
-                  <ScrollArea className="h-[280px]">
-                    <div className="p-2">
-                      <button
-                        onClick={() => handleSelectVehicle("all")}
-                        className="w-full flex items-center gap-3 px-4 py-3 text-[10px] font-bold text-neutral-900 hover:bg-neutral-50 rounded-xl transition-colors text-left uppercase tracking-widest"
-                      >
-                        <div className="w-8 h-8 rounded-lg bg-neutral-100 flex items-center justify-center">
-                          <Orbit className="h-4 w-4 text-neutral-400" />
-                        </div>
-                        Lihat Katalog Lengkap
-                      </button>
+                </ScrollArea>
+              </PopoverContent>
+            </Popover>
 
-                      {loading ? (
-                        <div className="flex items-center justify-center py-10">
-                          <Loader2 className="h-5 w-5 animate-spin text-neutral-200" />
-                        </div>
-                      ) : filteredMotorcycles.length === 0 ? (
-                        <div className="py-12 text-center text-[10px] font-bold uppercase tracking-widest text-neutral-300">
-                          Unit Tidak Ditemukan
-                        </div>
-                      ) : (
-                        filteredMotorcycles.map((m: any) => (
-                          <button
-                            key={m.id}
-                            onClick={() => handleSelectVehicle(m.id)}
-                            className="w-full flex items-center justify-between px-4 py-3 hover:bg-neutral-50 rounded-xl transition-colors group text-left"
-                          >
-                            <div className="flex flex-col">
-                              <span className="text-neutral-900 font-bold text-sm">{m.name}</span>
-                              <span className="text-[9px] font-bold uppercase tracking-widest text-neutral-300">
-                                {m.category}
-                              </span>
-                            </div>
-                            <ArrowRight className="h-4 w-4 text-neutral-200 opacity-0 group-hover:opacity-100 transition-all" />
-                          </button>
-                        ))
-                      )}
-                    </div>
-                  </ScrollArea>
-                </PopoverContent>
-              </Popover>
-
-              {/* Minimalist Quick Pills */}
-              <div className="mt-6 flex flex-wrap gap-2 justify-center">
-                {['Beat', 'Vario', 'PCX', 'CRF'].map((label) => (
-                  <button
-                    key={label}
-                    onClick={() => {
-                      const found = motorcycles?.find((m: any) =>
-                        m.name.toLowerCase().includes(label.toLowerCase())
-                      );
-                      if (found) handleSelectVehicle(found.id);
-                    }}
-                    className="px-4 py-1.5 rounded-lg bg-white/40 backdrop-blur-md border border-neutral-200/50 text-[9px] font-bold uppercase tracking-widest text-neutral-500 hover:text-black hover:bg-white hover:border-neutral-300 transition-all"
-                  >
-                    {label}
-                  </button>
-                ))}
-              </div>
+            {/* Minimalist Quick Pills */}
+            <div className="mt-6 flex flex-wrap gap-2 justify-center">
+              {['Beat', 'Vario', 'PCX', 'CRF'].map((label) => (
+                <button
+                  key={label}
+                  onClick={() => {
+                    const found = motorcycles?.find((m: any) =>
+                      m.name.toLowerCase().includes(label.toLowerCase())
+                    );
+                    if (found) handleSelectVehicle(found.id);
+                  }}
+                  className="px-4 py-1.5 rounded-lg bg-white/40 backdrop-blur-md border border-neutral-200/50 text-[9px] font-bold uppercase tracking-widest text-neutral-500 hover:text-black hover:bg-white hover:border-neutral-300 transition-all"
+                >
+                  {label}
+                </button>
+              ))}
             </div>
           </div>
         </section>
