@@ -15,7 +15,7 @@ export function Footer() {
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
         <div className="space-y-6">
           <div className="flex items-center gap-2">
-            <span className="font-bold text-sm tracking-[0.2em] text-black uppercase">Evan<span className="text-zinc-400 font-medium">Honda</span></span>
+            <span className="font-extrabold text-base tracking-[0.1em] text-black uppercase">Evan Honda</span>
           </div>
           <p className="text-[11px] text-zinc-400 leading-relaxed font-medium uppercase tracking-wider">
             Platform Pengalaman Resmi Honda Selamat Motor.<br/>Presisi teknis untuk mobilitas harian Anda.
