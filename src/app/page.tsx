@@ -67,7 +67,7 @@ export default function Home() {
             {/* Elegant simplified heading */}
             <div className="space-y-0.5">
               <h1 className="text-4xl md:text-7xl font-bold tracking-tighter leading-none text-neutral-950 uppercase">
-                Find <span className="text-neutral-200">Your Node</span>
+                Evan <span className="text-neutral-200">Honda</span>
               </h1>
             </div>
 
