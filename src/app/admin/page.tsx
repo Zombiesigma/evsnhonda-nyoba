@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect, useState, useMemo } from 'react';
@@ -197,7 +196,7 @@ export default function AdminPage() {
             </nav>
             <div className="pt-6 border-t border-zinc-100">
               <Button variant="ghost" className="w-full justify-start rounded-xl gap-3 text-zinc-400 hover:text-red-500 h-10 text-[9px] font-bold uppercase tracking-widest" onClick={handleLogout}>
-                <LogOut className="w-3.5 h-3.5" /> Terminate Session
+                <LogOut className="w-3.5 h-3.5" /> Logout
               </Button>
             </div>
           </>
