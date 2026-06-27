@@ -1,6 +1,8 @@
+
 "use client";
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -39,7 +41,15 @@ export function Navbar() {
     )}>
       <div className="max-w-7xl mx-auto w-full px-6 md:px-10 flex items-center justify-between">
         
-        <Link href="/" className="z-[110] flex items-center gap-2 group" onClick={() => setIsOpen(false)}>
+        <Link href="/" className="z-[110] flex items-center gap-3 group" onClick={() => setIsOpen(false)}>
+          <div className="relative w-8 h-8 md:w-10 md:h-10 transition-transform group-hover:scale-110">
+            <Image 
+              src="https://ik.imagekit.io/zlt25mb52fx/assets/images/logo/honda.svg" 
+              alt="Honda Official Logo" 
+              fill 
+              className="object-contain"
+            />
+          </div>
           <span className="font-extrabold text-sm md:text-base tracking-[0.1em] text-black uppercase">
             Evan Honda
           </span>
