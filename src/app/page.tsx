@@ -57,40 +57,36 @@ export default function Home() {
       <main>
         {/* ========== HERO – Minimalist Atmospheric Wash ========== */}
         <section
-          className="relative min-h-[70vh] flex flex-col items-center justify-center px-6 pt-12 pb-6 overflow-hidden"
+          className="relative min-h-[55vh] flex flex-col items-center justify-center px-6 pt-24 pb-12 overflow-hidden"
           style={{
             background:
               "radial-gradient(circle at 50% -20%, #e8f3ff 0%, rgba(255,255,255,0) 60%), #ffffff",
           }}
         >
-          <div className="max-w-2xl w-full text-center space-y-6 relative z-10">
+          <div className="max-w-2xl w-full text-center space-y-10 relative z-10">
             {/* Ultra-Minimal Badge */}
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-neutral-100 bg-neutral-50/50">
-              <div className="w-1 h-1 rounded-full bg-blue-500" />
+              <div className="w-1 h-1 rounded-full bg-blue-500 animate-pulse" />
               <span className="text-[8px] font-bold uppercase tracking-[0.3em] text-neutral-400">
-                Official Network • Honda Selamat Motor
+                Infrastructure Active • Evan Honda
               </span>
             </div>
 
-            {/* Judul yang Lebih Tenang */}
-            <div className="space-y-2">
-              <h1 className="text-4xl md:text-6xl font-medium tracking-tighter leading-none text-neutral-950">
-                Temukan Honda <br />
-                <span className="text-neutral-300 font-light">Edisi Terbaru</span>
+            {/* Elegant simplified heading */}
+            <div className="space-y-0.5">
+              <h1 className="text-4xl md:text-7xl font-bold tracking-tighter leading-none text-neutral-950 uppercase">
+                Find <span className="text-neutral-200">Your Node</span>
               </h1>
-              <p className="text-[11px] md:text-xs text-neutral-400 max-w-xs mx-auto uppercase tracking-[0.1em] font-medium leading-relaxed">
-                Personalisasi pengalaman berkendara Anda dengan simulasi kredit instan.
-              </p>
             </div>
 
             {/* Elegant Search Selector */}
             <div className="max-w-md mx-auto w-full pt-4">
               <Popover open={open} onOpenChange={setOpen}>
                 <PopoverTrigger asChild>
-                  <button className="w-full h-11 flex items-center justify-between rounded-xl border border-neutral-100 bg-white/40 backdrop-blur-md px-4 text-xs font-semibold text-neutral-400 hover:bg-white hover:border-neutral-200 transition-all shadow-sm">
-                    <div className="flex items-center gap-3 truncate">
-                      <Search className="h-3.5 w-3.5 shrink-0 text-neutral-300" />
-                      <span>Cari unit (PCX, Beat, CRF…)</span>
+                  <button className="w-full h-12 flex items-center justify-between rounded-xl border border-neutral-100 bg-white/40 backdrop-blur-md px-5 text-[10px] font-bold uppercase tracking-widest text-neutral-400 hover:bg-white hover:border-neutral-200 transition-all shadow-sm group">
+                    <div className="flex items-center gap-4 truncate">
+                      <Search className="h-3.5 w-3.5 shrink-0 text-neutral-300 group-hover:text-black transition-colors" />
+                      <span>Search unit (PCX, Beat, CRF…)</span>
                     </div>
                     <ChevronDown className="ml-2 h-3.5 w-3.5 shrink-0 text-neutral-200" />
                   </button>
@@ -170,7 +166,7 @@ export default function Home() {
                       );
                       if (found) handleSelectVehicle(found.id);
                     }}
-                    className="px-3 py-1 rounded-md bg-white border border-neutral-100 text-[9px] font-bold uppercase tracking-widest text-neutral-400 hover:text-blue-500 hover:border-blue-100 transition-all"
+                    className="px-3 py-1 rounded-md bg-white border border-neutral-100 text-[9px] font-bold uppercase tracking-widest text-neutral-400 hover:text-blue-600 hover:border-blue-100 transition-all"
                   >
                     {label}
                   </button>
@@ -181,7 +177,7 @@ export default function Home() {
         </section>
 
         {/* ========== LINEUP – High Density Grid ========== */}
-        <section className="px-6 py-12 md:py-16 bg-white">
+        <section className="px-6 py-10 md:py-16 bg-white">
           <div className="max-w-7xl mx-auto">
             <div className="flex justify-between items-end mb-6">
               <div className="space-y-1">
