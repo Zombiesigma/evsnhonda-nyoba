@@ -50,9 +50,9 @@ export function Footer() {
         <div>
           <h4 className="font-bold text-[9px] uppercase tracking-[0.3em] mb-8 text-zinc-300">Kontak Resmi</h4>
           <ul className="space-y-4 text-[10px] font-bold text-zinc-500 uppercase tracking-widest">
-            <li>info@evanhonda.com</li>
-            <li>1-500-989 (Hotline)</li>
-            <li>+62 811 1234 5678 (WA)</li>
+            <li>fauzanevan@hotmail.com</li>
+            <li>+62 821 1212 1707 (Hotline)</li>
+            <li>+62 821 1212 1707 (WA)</li>
           </ul>
         </div>
       </div>
