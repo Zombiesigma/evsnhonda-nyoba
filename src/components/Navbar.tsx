@@ -1,4 +1,3 @@
-
 "use client";
 
 import Link from 'next/link';
@@ -40,11 +39,8 @@ export function Navbar() {
     )}>
       <div className="max-w-7xl mx-auto w-full px-6 md:px-10 flex items-center justify-between">
         
-        <Link href="/" className="z-[110] flex items-center gap-2.5 group" onClick={() => setIsOpen(false)}>
-          <div className="w-7 h-7 md:w-8 md:h-8 bg-black rounded-lg flex items-center justify-center text-white font-bold text-xs md:text-sm tracking-tight transition-transform group-hover:scale-105">
-            E
-          </div>
-          <span className="font-bold text-xs md:text-sm tracking-[0.05em] text-black uppercase">
+        <Link href="/" className="z-[110] flex items-center gap-2 group" onClick={() => setIsOpen(false)}>
+          <span className="font-bold text-xs md:text-sm tracking-[0.2em] text-black uppercase">
             Evan<span className="text-zinc-400 font-medium">Honda</span>
           </span>
         </Link>
