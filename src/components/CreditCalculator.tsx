@@ -4,7 +4,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
-import { Info, BadgeCheck, Calculator, Wallet, Calendar, ShieldCheck } from 'lucide-react';
+import { Calculator, Wallet, Calendar } from 'lucide-react';
 import { useLanguage } from '@/app/context/LanguageContext';
 import { LeasingRow } from '@/app/lib/motorcycles';
 
@@ -112,22 +112,6 @@ export function CreditCalculator({ initialPrice = 19425000, motorcycleName, hide
             <h3 className="text-4xl md:text-5xl font-bold text-black font-mono tracking-tighter leading-none">
               {formatCurrency(finalInstallment)}
             </h3>
-            
-            <div className="grid grid-cols-2 gap-4 mt-8">
-              <div className="bg-white p-3 rounded-xl border border-zinc-100 shadow-sm">
-                 <p className="text-[9px] font-bold text-zinc-400 uppercase mb-1">Pokok Pinjaman</p>
-                 <p className="text-xs font-bold font-mono">{formatCurrency(price - dpAmountInput)}</p>
-              </div>
-              <div className="bg-white p-3 rounded-xl border border-zinc-100 shadow-sm">
-                 <p className="text-[9px] font-bold text-zinc-400 uppercase mb-1">Bunga</p>
-                 <p className="text-xs font-bold font-mono">~5.5% Flat</p>
-              </div>
-            </div>
-
-            <div className="flex items-center justify-center gap-2 mt-6 text-[9px] font-bold text-zinc-400 uppercase tracking-widest">
-               <ShieldCheck className="h-3 w-3 text-blue-600" />
-               <span>{officialInstallment ? 'Official Price List Sync' : 'Kalkulasi Estimasi'}</span>
-            </div>
         </div>
       </CardContent>
     </Card>
