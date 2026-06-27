@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
-import { Chrome, Lock, Mail, Loader2, ShieldCheck, ArrowRight } from 'lucide-react';
+import { Chrome, Lock, Mail, Loader2, ShieldCheck } from 'lucide-react';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -78,7 +78,7 @@ export default function LoginPage() {
                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 md:h-5 md:w-5 text-gray-300" />
                 <Input
                   type="email"
-                  placeholder="admin@honda.com"
+                  placeholder="admin@evanhonda.com"
                   className="pl-10 md:pl-12 h-12 md:h-14 rounded-xl md:rounded-2xl border-gray-100 bg-gray-50/50 focus:bg-white transition-all text-sm md:text-base"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -131,12 +131,9 @@ export default function LoginPage() {
           </Button>
 
           <div className="text-center pt-2">
-            <Link
-              href="/register"
-              className="text-xs md:text-sm font-bold text-[#0d74ce] hover:underline flex items-center justify-center gap-1"
-            >
-              Create Admin Account <ArrowRight className="h-3.5 w-3.5 md:h-4 md:w-4" />
-            </Link>
+            <p className="text-[10px] text-gray-300 font-bold uppercase tracking-widest">
+              Contact root admin for new access
+            </p>
           </div>
         </CardContent>
       </Card>
