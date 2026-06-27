@@ -1,12 +1,10 @@
-
 "use client";
 
 import { useState, useEffect, useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
-import { Input } from '@/components/ui/input';
-import { Info, BadgeCheck } from 'lucide-react';
+import { Info, BadgeCheck, Calculator, Wallet, Calendar, ShieldCheck } from 'lucide-react';
 import { useLanguage } from '@/app/context/LanguageContext';
 import { LeasingRow } from '@/app/lib/motorcycles';
 
@@ -25,95 +23,82 @@ export function CreditCalculator({ initialPrice = 19425000, motorcycleName, hide
   
   useEffect(() => {
     setPrice(initialPrice);
-    // Initialize DP with minimum if table exists
     if (leasingTable && leasingTable.length > 0) {
       setDpAmountInput(leasingTable[0].dp);
     } else {
-      setDpAmountInput(Math.round(initialPrice * 0.15));
+      setDpAmountInput(Math.round(initialPrice * 0.25));
     }
   }, [initialPrice, leasingTable]);
 
   const dpPercentage = Math.round((dpAmountInput / price) * 100);
 
-  // Official Pricing Logic
   const officialInstallment = useMemo(() => {
     if (!leasingTable || leasingTable.length === 0) return null;
-    
-    // Find closest DP in table
     const sortedTable = [...leasingTable].sort((a, b) => Math.abs(a.dp - dpAmountInput) - Math.abs(b.dp - dpAmountInput));
     const closestRow = sortedTable[0];
-    
     return closestRow.installments[tenure.toString()] || null;
   }, [leasingTable, dpAmountInput, tenure]);
 
-  // Formula Fallback Logic
   const estimatedInstallment = useMemo(() => {
-    const loanAmount = price - dpAmountInput;
-    const interestRate = 25; // Average flat rate
-    const insuranceAndAdminLoad = loanAmount * 0.05;
-    const totalInterest = (loanAmount * (interestRate / 100)) * (tenure / 12);
-    return Math.round((loanAmount + totalInterest + insuranceAndAdminLoad) / tenure);
+    const principal = price - dpAmountInput;
+    const annualRate = tenure <= 12 ? 0.035 : tenure <= 24 ? 0.045 : 0.055;
+    const totalInterest = principal * annualRate * (tenure / 12);
+    return Math.round((principal + totalInterest) / tenure);
   }, [price, dpAmountInput, tenure]);
 
   const finalInstallment = officialInstallment || estimatedInstallment;
 
   const formatCurrency = (val: number) => 
     new Intl.NumberFormat(language === 'id' ? 'id-ID' : 'en-US', { 
-      style: 'currency', 
-      currency: 'IDR', 
-      maximumFractionDigits: 0 
+      style: 'currency', currency: 'IDR', maximumFractionDigits: 0 
     }).format(val);
 
   return (
-    <Card className="border-gray-100 bg-white shadow-xl rounded-2xl overflow-hidden">
+    <Card className="border-zinc-100 bg-white shadow-selector rounded-3xl overflow-hidden">
       {!hideHeader && (
-        <CardHeader className="bg-gray-50 border-b border-gray-100 py-6 px-8">
+        <CardHeader className="bg-zinc-50/50 border-b border-zinc-100 py-6 px-8">
           <div className="flex justify-between items-start">
-            <div>
-              <CardTitle className="text-lg font-bold">{t('calc_title')}</CardTitle>
-              <CardDescription className="text-xs text-gray-500 mt-1">{t('calc_subtitle')} {motorcycleName}</CardDescription>
+            <div className="space-y-1">
+              <CardTitle className="text-xl font-bold flex items-center gap-2">
+                <div className="w-8 h-8 rounded-lg bg-zinc-100 flex items-center justify-center text-zinc-900">
+                  <Calculator className="w-4 h-4" />
+                </div>
+                {t('calc_title')}
+              </CardTitle>
+              <CardDescription className="text-xs text-zinc-400 font-medium tracking-tight">
+                Estimasi pembayaran untuk <span className="text-black font-bold">{motorcycleName}</span>
+              </CardDescription>
             </div>
-            {officialInstallment && (
-              <div className="flex items-center gap-2 bg-green-50 text-green-600 px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-wider">
-                <BadgeCheck className="w-3 h-3" />
-                Official Price List
-              </div>
-            )}
           </div>
         </CardHeader>
       )}
       <CardContent className="space-y-8 p-8">
-        <div className="space-y-4">
-          <Label className="text-xs font-bold text-gray-400 uppercase tracking-widest">{t('calc_price')}</Label>
-          <div className="text-2xl font-bold tracking-tight">{formatCurrency(price)}</div>
-        </div>
-
         <div className="space-y-6">
           <div className="flex justify-between items-center">
-            <Label className="text-xs font-bold text-gray-400 uppercase tracking-widest">{t('calc_dp')} ({dpPercentage}%)</Label>
-            <span className="font-bold text-lg">{formatCurrency(dpAmountInput)}</span>
+            <Label className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest flex items-center gap-2">
+              <Wallet className="w-3.5 h-3.5" /> {t('calc_dp')} ({dpPercentage}%)
+            </Label>
+            <span className="font-mono font-bold text-base">{formatCurrency(dpAmountInput)}</span>
           </div>
           <Slider 
             value={[dpAmountInput]} 
             onValueChange={(v) => setDpAmountInput(v[0])} 
-            min={Math.round(price * 0.1)} 
-            max={Math.round(price * 0.7)} 
+            min={Math.round(price * 0.15)} 
+            max={Math.round(price * 0.6)} 
             step={500000}
             className="py-2"
           />
-          <div className="flex justify-between text-[10px] text-gray-400 font-bold uppercase">
-            <span>Min 10%</span>
-            <span>Max 70%</span>
-          </div>
         </div>
 
         <div className="space-y-4">
-          <Label className="text-xs font-bold text-gray-400 uppercase tracking-widest">{t('calc_tenure')}</Label>
+          <Label className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest flex items-center gap-2">
+            <Calendar className="w-3.5 h-3.5" /> {t('calc_tenure')}
+          </Label>
           <div className="grid grid-cols-5 gap-2">
             {[11, 17, 23, 29, 35].map((tVal) => (
               <button 
                 key={tVal}
-                className={`h-10 rounded-lg border text-xs font-bold transition-all ${tenure === tVal ? 'border-black bg-black text-white' : 'border-gray-100 text-gray-400 hover:border-gray-300'}`}
+                className={`h-11 rounded-xl border text-xs font-bold transition-all ${tenure === tVal ? 'border-black bg-black text-white shadow-lg' : 'border-zinc-100 text-zinc-400 hover:border-zinc-300'}`}
                 onClick={() => setTenure(tVal)}
               >
                 {tVal}x
@@ -122,12 +107,26 @@ export function CreditCalculator({ initialPrice = 19425000, motorcycleName, hide
           </div>
         </div>
 
-        <div className="pt-8 border-t border-gray-100 bg-[#fafafa] -mx-8 -mb-8 p-8">
-            <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">{t('calc_installment')}</p>
-            <h3 className="text-4xl font-bold text-black">{formatCurrency(finalInstallment)}</h3>
-            <div className="flex items-center gap-2 mt-4 text-[10px] font-bold text-gray-400 uppercase">
-               <Info className="h-3 w-3 text-[#0d74ce]" />
-               <span>{officialInstallment ? 'Berdasarkan Price List Resmi' : t('calc_fixed_rate')}</span>
+        <div className="pt-8 border-t border-zinc-100 bg-zinc-50 -mx-8 -mb-8 p-8 text-center">
+            <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-2">{t('calc_installment')}</p>
+            <h3 className="text-4xl md:text-5xl font-bold text-black font-mono tracking-tighter leading-none">
+              {formatCurrency(finalInstallment)}
+            </h3>
+            
+            <div className="grid grid-cols-2 gap-4 mt-8">
+              <div className="bg-white p-3 rounded-xl border border-zinc-100 shadow-sm">
+                 <p className="text-[9px] font-bold text-zinc-400 uppercase mb-1">Pokok Pinjaman</p>
+                 <p className="text-xs font-bold font-mono">{formatCurrency(price - dpAmountInput)}</p>
+              </div>
+              <div className="bg-white p-3 rounded-xl border border-zinc-100 shadow-sm">
+                 <p className="text-[9px] font-bold text-zinc-400 uppercase mb-1">Bunga</p>
+                 <p className="text-xs font-bold font-mono">~5.5% Flat</p>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-center gap-2 mt-6 text-[9px] font-bold text-zinc-400 uppercase tracking-widest">
+               <ShieldCheck className="h-3 w-3 text-blue-600" />
+               <span>{officialInstallment ? 'Official Price List Sync' : 'Kalkulasi Estimasi'}</span>
             </div>
         </div>
       </CardContent>
