@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useState, useMemo } from 'react';
@@ -111,7 +112,7 @@ export default function AdminPage() {
       ...initialBikeState,
       ...bike,
       startingPrice: bike.startingPrice?.toString() || '',
-      variants: bike.variants || [{ name: 'Standard', price: '', color: 'Black' }]
+      variants: bike.variants || [{ name: 'Standard', price: bike.startingPrice?.toString() || '', color: 'Black' }]
     });
     setIsAddOpen(true);
   };
@@ -122,6 +123,9 @@ export default function AdminPage() {
     setUploading(true);
 
     try {
+      const priceValue = Number(bikeForm.startingPrice);
+      if (isNaN(priceValue)) throw new Error("Harga OTR harus berupa angka.");
+
       let mainImageUrl = bikeForm.image;
       if (selectedFile) {
         const base64 = await toBase64(selectedFile);
@@ -135,11 +139,18 @@ export default function AdminPage() {
         galleryUrls.push(url);
       }
 
+      // Sync startingPrice to the first variant if price is not set
+      const processedVariants = bikeForm.variants.map((v, i) => ({
+        ...v,
+        price: i === 0 ? priceValue : (Number(v.price) || priceValue)
+      }));
+
       const finalData = {
         ...bikeForm,
         image: mainImageUrl,
         gallery: galleryUrls,
-        startingPrice: Number(bikeForm.startingPrice),
+        startingPrice: priceValue,
+        variants: processedVariants,
         updatedAt: serverTimestamp(),
         createdAt: editingId ? bikeForm.createdAt : serverTimestamp()
       };
@@ -174,7 +185,7 @@ export default function AdminPage() {
 
   return (
     <div className="min-h-screen bg-[#fafafa] flex flex-col lg:flex-row">
-      {/* Sidebar / Top Nav Mobile */}
+      {/* Sidebar */}
       <aside className={cn(
         "bg-white border-r border-zinc-100 flex flex-col transition-all",
         isMobile ? "w-full border-b sticky top-0 z-50 p-3" : "w-64 p-6 sticky top-0 h-screen"
@@ -225,7 +236,13 @@ export default function AdminPage() {
             </div>
 
             {activeTab === 'motorcycles' && (
-              <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
+              <Dialog open={isAddOpen} onOpenChange={(open) => {
+                setIsAddOpen(open);
+                if (!open) {
+                  setEditingId(null);
+                  setBikeForm(initialBikeState);
+                }
+              }}>
                 <DialogTrigger asChild>
                   <Button size="sm" className="bg-black text-white rounded-xl h-9 lg:h-12 px-4 lg:px-6 font-bold text-[10px] uppercase tracking-widest shadow-xl shadow-black/10 flex items-center gap-2 hover:scale-[1.02] transition-all">
                     <Plus className="w-3.5 h-3.5" /> New Asset
@@ -233,7 +250,7 @@ export default function AdminPage() {
                 </DialogTrigger>
                 <DialogContent className="bg-white border-none rounded-[24px] lg:rounded-[32px] p-0 overflow-hidden max-w-4xl shadow-2xl">
                   <DialogHeader className="p-4 lg:p-6 border-b border-zinc-50 bg-[#fafafa]">
-                    <DialogTitle className="text-base lg:text-xl font-bold tracking-tight">Manage Node Asset</DialogTitle>
+                    <DialogTitle className="text-base lg:text-xl font-bold tracking-tight">{editingId ? 'Edit Node Asset' : 'Manage Node Asset'}</DialogTitle>
                     <DialogDescription className="text-xs text-zinc-400">Add or edit motorcycle unit data in the inventory system.</DialogDescription>
                   </DialogHeader>
                   <ScrollArea className="max-h-[80vh] p-4 lg:p-8">
@@ -252,7 +269,7 @@ export default function AdminPage() {
                                </select>
                              </div>
                              <div className="space-y-1.5">
-                               <label className="text-[10px] font-bold uppercase text-zinc-400 tracking-widest">OTR Price</label>
+                               <label className="text-[10px] font-bold uppercase text-zinc-400 tracking-widest">OTR Price (IDR)</label>
                                <Input type="number" value={bikeForm.startingPrice} onChange={(e) => setBikeForm({...bikeForm, startingPrice: e.target.value})} required className="h-10 lg:h-12 rounded-xl border-zinc-100 bg-zinc-50/50" />
                              </div>
                            </div>
@@ -363,7 +380,7 @@ export default function AdminPage() {
                         </div>
                       </TableCell>
                       <TableCell className="hidden lg:table-cell py-4">
-                        <p className="font-mono text-sm font-bold text-zinc-900">Rp {bike.startingPrice?.toLocaleString('id-ID')}</p>
+                        <p className="font-mono text-sm font-bold text-zinc-900">Rp {Number(bike.startingPrice || 0).toLocaleString('id-ID')}</p>
                       </TableCell>
                       <TableCell className="text-right px-6 py-4">
                         <div className="flex gap-1 justify-end">
