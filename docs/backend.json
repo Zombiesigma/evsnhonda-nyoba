@@ -34,20 +34,6 @@
       },
       "required": ["id", "name", "category", "startingPrice"]
     },
-    "Dealer": {
-      "title": "Dealer",
-      "description": "Authorized dealer location.",
-      "type": "object",
-      "properties": {
-        "name": { "type": "string" },
-        "address": { "type": "string" },
-        "city": { "type": "string" },
-        "phone": { "type": "string" },
-        "whatsapp": { "type": "string" },
-        "mapUrl": { "type": "string" }
-      },
-      "required": ["name", "address", "city", "whatsapp"]
-    },
     "User": {
       "title": "User Profile",
       "description": "System user profiles including roles.",
@@ -72,10 +58,6 @@
     "motorcycles/{motorcycleId}": {
       "schema": "Motorcycle",
       "description": "Dynamic motorcycle catalog."
-    },
-    "dealers/{dealerId}": {
-      "schema": "Dealer",
-      "description": "Dealer network directory."
     },
     "users/{userId}": {
       "schema": "User",
