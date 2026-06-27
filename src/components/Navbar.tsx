@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { Menu, X, ArrowRight, Phone, MessageSquare, Globe, Orbit } from 'lucide-react';
+import { Menu, X, ArrowRight, Phone, MessageSquare, Globe } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useLanguage } from '@/app/context/LanguageContext';
 
@@ -39,9 +39,9 @@ export function Navbar() {
       <div className="max-w-7xl mx-auto w-full flex items-center justify-between">
         
         <Link href="/" className="z-[110] flex items-center gap-2" onClick={() => setIsOpen(false)}>
-          <div className="w-8 h-8 bg-black rounded-lg flex items-center justify-center text-white font-bold text-base tracking-tight">H</div>
+          <div className="w-8 h-8 bg-black rounded-lg flex items-center justify-center text-white font-bold text-base tracking-tight">E</div>
           <span className="font-bold text-base tracking-tight text-black flex items-baseline">
-            Honda<span className="text-zinc-400 font-normal ml-0.5">DreamDrive</span>
+            Evan<span className="text-zinc-400 font-normal ml-0.5">Honda</span>
           </span>
         </Link>
 

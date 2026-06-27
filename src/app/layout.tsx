@@ -7,7 +7,7 @@ import { FirebaseClientProvider } from '@/firebase';
 
 export const metadata: Metadata = {
   title: 'Evan Honda Selamat Motor | Official Experience',
-  description: 'Explore Honda motorcycle lineup, simulate your credit payments, and get AI-powered recommendations for your next ride.',
+  description: 'Jelajahi koleksi motor Honda terbaru, simulasi kredit instan, dan layanan dealer resmi Honda Selamat Motor.',
 };
 
 export default function RootLayout({
@@ -40,32 +40,32 @@ export default function RootLayout({
 
 function Footer() {
   return (
-    <footer className="bg-white py-16 px-6 border-t border-gray-100">
+    <footer className="bg-white py-12 px-6 border-t border-gray-100">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
         <div className="space-y-6">
           <h3 className="font-bold text-lg tracking-tight">EVAN HONDA</h3>
           <p className="text-sm text-gray-500 leading-relaxed">
-            Authorized Honda Experience Platform.<br/>One Heart for every journey.
+            Authorized Honda Experience Platform.<br/>Satu Hati untuk setiap perjalanan.
           </p>
         </div>
         <div>
-          <h4 className="font-semibold text-xs uppercase tracking-wider mb-6 text-gray-400">Quick Links</h4>
+          <h4 className="font-semibold text-xs uppercase tracking-wider mb-6 text-gray-400">Tautan Cepat</h4>
           <ul className="space-y-3 text-sm text-gray-600">
-            <li><a href="/motor" className="hover:text-black transition-colors">Catalog</a></li>
-            <li><a href="/simulasi-kredit" className="hover:text-black transition-colors">Credit Simulator</a></li>
-            <li><a href="/dealer" className="hover:text-black transition-colors">Find Dealer</a></li>
+            <li><a href="/motor" className="hover:text-black transition-colors">Katalog</a></li>
+            <li><a href="/simulasi-kredit" className="hover:text-black transition-colors">Simulasi Kredit</a></li>
+            <li><a href="/dealer" className="hover:text-black transition-colors">Cari Dealer</a></li>
           </ul>
         </div>
         <div>
-          <h4 className="font-semibold text-xs uppercase tracking-wider mb-6 text-gray-400">Services</h4>
+          <h4 className="font-semibold text-xs uppercase tracking-wider mb-6 text-gray-400">Layanan</h4>
           <ul className="space-y-3 text-sm text-gray-600">
-            <li><a href="#" className="hover:text-black transition-colors">Service Booking</a></li>
-            <li><a href="#" className="hover:text-black transition-colors">Spare Parts</a></li>
+            <li><a href="#" className="hover:text-black transition-colors">Booking Service</a></li>
+            <li><a href="#" className="hover:text-black transition-colors">Suku Cadang</a></li>
             <li><a href="#" className="hover:text-black transition-colors">Trade-In</a></li>
           </ul>
         </div>
         <div>
-          <h4 className="font-semibold text-xs uppercase tracking-wider mb-6 text-gray-400">Contact</h4>
+          <h4 className="font-semibold text-xs uppercase tracking-wider mb-6 text-gray-400">Kontak</h4>
           <ul className="space-y-3 text-sm text-gray-600">
             <li>Email: info@evanhonda.com</li>
             <li>Phone: 1-500-989</li>
@@ -73,8 +73,8 @@ function Footer() {
           </ul>
         </div>
       </div>
-      <div className="max-w-7xl mx-auto mt-20 pt-10 border-t border-gray-50 text-center">
-        <p className="text-[11px] text-gray-400 uppercase tracking-widest font-medium">
+      <div className="max-w-7xl mx-auto mt-12 pt-8 border-t border-gray-50 text-center">
+        <p className="text-[10px] text-gray-400 uppercase tracking-widest font-bold">
           © {new Date().getFullYear()} EVAN HONDA SELAMAT MOTOR. ALL RIGHTS RESERVED.
         </p>
       </div>
