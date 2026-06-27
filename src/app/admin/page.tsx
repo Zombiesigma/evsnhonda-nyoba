@@ -18,14 +18,15 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
 import { 
   Target, Cpu, LogOut, CheckCircle2, 
-  XCircle, Trash2, Plus, Loader2, Edit3, Database, X, Orbit
+  XCircle, Trash2, Plus, Loader2, Edit3
 } from 'lucide-react';
 import { getAuth, signOut } from 'firebase/auth';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
 import { uploadToGithub } from '@/app/actions/github-actions';
 import { errorEmitter } from '@/firebase/error-emitter';
 import { FirestorePermissionError } from '@/firebase/errors';
+import { PlaceHolderImages } from '@/lib/placeholder-images';
 import Image from 'next/image';
 
 export default function AdminPage() {
@@ -170,6 +171,8 @@ export default function AdminPage() {
     reader.onerror = error => reject(error);
   });
 
+  const fallbackImage = PlaceHolderImages[0].imageUrl;
+
   return (
     <div className="min-h-screen bg-[#fafafa] flex flex-col lg:flex-row">
       {/* Sidebar / Top Nav Mobile */}
@@ -178,7 +181,7 @@ export default function AdminPage() {
         isMobile ? "w-full border-b sticky top-0 z-50 p-3" : "w-64 p-6 sticky top-0 h-screen"
       )}>
         <div className={cn("flex items-center justify-between", !isMobile && "mb-10")}>
-          <h1 className="text-[12px] font-extrabold tracking-[0.2em] text-black uppercase">
+          <h1 className="text-sm font-extrabold tracking-[0.2em] text-black uppercase">
             EVAN HONDA
           </h1>
           {isMobile && (
@@ -232,6 +235,7 @@ export default function AdminPage() {
                 <DialogContent className="bg-white border-none rounded-[24px] lg:rounded-[32px] p-0 overflow-hidden max-w-4xl shadow-2xl">
                   <DialogHeader className="p-4 lg:p-6 border-b border-zinc-50 bg-[#fafafa]">
                     <DialogTitle className="text-base lg:text-xl font-bold tracking-tight">Manage Node Asset</DialogTitle>
+                    <DialogDescription className="text-xs text-zinc-400">Add or edit motorcycle unit data in the inventory system.</DialogDescription>
                   </DialogHeader>
                   <ScrollArea className="max-h-[80vh] p-4 lg:p-8">
                     <form onSubmit={handleBikeSubmit} className="space-y-6 lg:space-y-10">
@@ -345,7 +349,13 @@ export default function AdminPage() {
                       <TableCell className="px-6 py-4">
                         <div className="flex items-center gap-4">
                           <div className="w-12 h-12 rounded-xl bg-zinc-100 overflow-hidden relative border border-zinc-200 shrink-0">
-                             {bike.image && <Image src={bike.image.startsWith('http') ? bike.image : `/api/placeholder`} alt="" fill className="object-cover" />}
+                             <Image 
+                               src={bike.image?.startsWith('http') ? bike.image : fallbackImage} 
+                               alt="" 
+                               fill 
+                               className="object-cover" 
+                               unoptimized={!bike.image?.startsWith('http')}
+                             />
                           </div>
                           <div>
                             <p className="font-bold text-sm tracking-tight">{bike.name}</p>
