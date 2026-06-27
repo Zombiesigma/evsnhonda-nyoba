@@ -81,12 +81,13 @@ export default function Home() {
             {/* Elegant heading */}
             <div className="space-y-0.5">
               <h1 className="text-4xl md:text-8xl font-black tracking-tighter leading-none text-neutral-950 uppercase">
-                Evan <span className="text-transparent bg-clip-text bg-gradient-to-r from-neutral-200 to-neutral-200">Honda</span>
+                Evan <span className="text-transparent bg-clip-text bg-gradient-to-r from-neutral-600 via-neutral-500 to-neutral-700">Honda</span>
               </h1>
               <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-neutral-500 mt-4 opacity-70">
                 Official Honda Experience Center
               </p>
             </div>
+          </div>
 
             {/* Elegant Search Selector */}
             <div className="max-w-md mx-auto w-full pt-4">
