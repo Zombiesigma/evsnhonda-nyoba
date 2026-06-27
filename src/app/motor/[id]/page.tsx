@@ -131,7 +131,7 @@ export default function MotorcycleDetailPage({ params }: { params: Promise<{ id:
 
             <div className="bg-black text-white rounded-[24px] p-6 md:p-8 flex items-center justify-between shadow-2xl shadow-black/20">
               <div>
-                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500 mb-1 block">OTR Jakarta</span>
+                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500 mb-1 block">OTR Pelabuhan Ratu</span>
                 <p className="text-3xl font-bold font-mono tracking-tight">{formatCurrency(activeVariant.price)}</p>
               </div>
               <div className="text-right">
