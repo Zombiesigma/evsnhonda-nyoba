@@ -64,14 +64,6 @@ export default function Home() {
           }}
         >
           <div className="max-w-2xl w-full text-center space-y-10 relative z-10">
-            {/* Ultra-Minimal Badge */}
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-neutral-100 bg-neutral-50/50">
-              <div className="w-1 h-1 rounded-full bg-blue-500 animate-pulse" />
-              <span className="text-[8px] font-bold uppercase tracking-[0.3em] text-neutral-400">
-                Infrastructure Active • Evan Honda
-              </span>
-            </div>
-
             {/* Elegant simplified heading */}
             <div className="space-y-0.5">
               <h1 className="text-4xl md:text-7xl font-bold tracking-tighter leading-none text-neutral-950 uppercase">
@@ -176,7 +168,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ========== LINEUP – High Density Grid ========== */}
+        {/* ========== LINEUP – High Performance Grid ========== */}
         <section className="px-6 py-10 md:py-16 bg-white">
           <div className="max-w-7xl mx-auto">
             <div className="flex justify-between items-end mb-6">
