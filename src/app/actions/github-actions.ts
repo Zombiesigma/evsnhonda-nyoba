@@ -1,7 +1,8 @@
 'use server';
 
 /**
- * @fileOverview Server actions for GitHub repository integration with folder support.
+ * @fileOverview Server actions for GitHub repository integration.
+ * Optimized for robust error handling to prevent 500 Internal Server Errors.
  */
 
 export async function uploadToGithub(fileName: string, base64Content: string, subfolder: string = 'general') {
@@ -10,8 +11,10 @@ export async function uploadToGithub(fileName: string, base64Content: string, su
   const repo = process.env.GITHUB_REPO;
   const branch = 'main';
 
+  // Check for configuration before attempting upload
   if (!token || !owner || !repo) {
-    throw new Error('GitHub configuration missing in environment variables');
+    console.error('SERVER ACTION ERROR: GitHub configuration missing (GITHUB_TOKEN, GITHUB_OWNER, or GITHUB_REPO)');
+    throw new Error('Konfigurasi GitHub belum lengkap di server. Pastikan Environment Variables telah diatur.');
   }
 
   // Clean filename and structure path into folders
@@ -38,13 +41,13 @@ export async function uploadToGithub(fileName: string, base64Content: string, su
     const data = await response.json();
 
     if (!response.ok) {
-      throw new Error(data.message || 'Failed to upload to GitHub');
+      console.error('GITHUB API ERROR:', data);
+      throw new Error(data.message || 'Gagal mengunggah ke GitHub');
     }
 
-    // Return the raw content URL which is publicly accessible
     return `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${path}`;
   } catch (error: any) {
-    console.error('GitHub Upload Error:', error);
-    throw new Error(error.message || 'Error uploading file to GitHub');
+    console.error('FATAL UPLOAD ERROR:', error);
+    throw new Error(error.message || 'Terjadi kesalahan sistem saat mengunggah file.');
   }
 }
