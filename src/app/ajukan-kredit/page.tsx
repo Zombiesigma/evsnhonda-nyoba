@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, Suspense } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
@@ -35,7 +35,7 @@ const applicationSchema = z.object({
 
 type ApplicationFormData = z.infer<typeof applicationSchema>;
 
-export default function CreditApplicationPage() {
+function CreditApplicationContent() {
   const { t, language } = useLanguage();
   const { toast } = useToast();
   const db = useFirestore();
@@ -111,7 +111,7 @@ export default function CreditApplicationPage() {
   return (
     <div className="min-h-screen pt-20 md:pt-24 pb-8 md:pb-12 px-4 bg-[#fafafa]">
       <div className="max-w-4xl mx-auto space-y-6 md:space-y-8">
-        {/* Step Indicator - Tighter for Mobile */}
+        {/* Step Indicator */}
         <div className="flex items-center justify-between max-w-[280px] md:max-w-xs mx-auto mb-6 md:mb-8">
           {[
             { num: 1, label: t('apply_step_unit') },
@@ -320,5 +320,17 @@ export default function CreditApplicationPage() {
         </Card>
       </div>
     </div>
+  );
+}
+
+export default function CreditApplicationPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen pt-24 flex items-center justify-center bg-[#fafafa]">
+        <Loader2 className="animate-spin h-8 w-8 text-zinc-200" />
+      </div>
+    }>
+      <CreditApplicationContent />
+    </Suspense>
   );
 }
