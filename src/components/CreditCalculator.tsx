@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect, useMemo } from 'react';
@@ -7,54 +8,72 @@ import { Slider } from '@/components/ui/slider';
 import { Calculator, Wallet, Calendar } from 'lucide-react';
 import { useLanguage } from '@/app/context/LanguageContext';
 import { LeasingRow } from '@/app/lib/motorcycles';
+import { cn } from '@/lib/utils';
 
 interface CreditCalculatorProps {
   initialPrice?: number;
   motorcycleName?: string;
   hideHeader?: boolean;
   leasingTable?: LeasingRow[];
+  onDpChange?: (dp: number) => void;
 }
 
-export function CreditCalculator({ initialPrice = 19425000, motorcycleName, hideHeader, leasingTable }: CreditCalculatorProps) {
+export function CreditCalculator({ 
+  initialPrice = 0, 
+  motorcycleName, 
+  hideHeader, 
+  leasingTable,
+  onDpChange 
+}: CreditCalculatorProps) {
   const { t, language } = useLanguage();
   const [price, setPrice] = useState(initialPrice);
   const [dpAmountInput, setDpAmountInput] = useState(0);
   const [tenure, setTenure] = useState(35);
   
   useEffect(() => {
-    setPrice(initialPrice);
-    if (leasingTable && leasingTable.length > 0) {
-      setDpAmountInput(leasingTable[0].dp);
-    } else {
-      setDpAmountInput(Math.round(initialPrice * 0.25));
+    if (initialPrice > 0) {
+      setPrice(initialPrice);
+      const defaultDp = Math.round(initialPrice * 0.20);
+      setDpAmountInput(defaultDp);
     }
-  }, [initialPrice, leasingTable]);
+  }, [initialPrice]);
 
-  const dpPercentage = Math.round((dpAmountInput / price) * 100);
+  const dpPercentage = useMemo(() => {
+    if (price <= 0) return 20;
+    return Math.round((dpAmountInput / price) * 100);
+  }, [dpAmountInput, price]);
 
-  const officialInstallment = useMemo(() => {
-    if (!leasingTable || leasingTable.length === 0) return null;
-    const sortedTable = [...leasingTable].sort((a, b) => Math.abs(a.dp - dpAmountInput) - Math.abs(b.dp - dpAmountInput));
-    const closestRow = sortedTable[0];
-    return closestRow.installments[tenure.toString()] || null;
-  }, [leasingTable, dpAmountInput, tenure]);
+  useEffect(() => {
+    onDpChange?.(dpPercentage);
+  }, [dpPercentage, onDpChange]);
 
-  const estimatedInstallment = useMemo(() => {
+  const finalInstallment = useMemo(() => {
+    if (price <= 0) return 0;
+    
+    // Official lookup
+    if (leasingTable && leasingTable.length > 0) {
+      const sortedTable = [...leasingTable].sort((a, b) => Math.abs(a.dp - dpAmountInput) - Math.abs(b.dp - dpAmountInput));
+      const closestRow = sortedTable[0];
+      const val = closestRow.installments[tenure.toString()];
+      if (val) return val;
+    }
+
+    // Mathematical estimation fallback
     const principal = price - dpAmountInput;
-    const annualRate = tenure <= 12 ? 0.035 : tenure <= 24 ? 0.045 : 0.055;
+    const annualRate = tenure <= 12 ? 0.085 : tenure <= 24 ? 0.095 : 0.105;
     const totalInterest = principal * annualRate * (tenure / 12);
     return Math.round((principal + totalInterest) / tenure);
-  }, [price, dpAmountInput, tenure]);
-
-  const finalInstallment = officialInstallment || estimatedInstallment;
+  }, [price, dpAmountInput, tenure, leasingTable]);
 
   const formatCurrency = (val: number) => 
     new Intl.NumberFormat(language === 'id' ? 'id-ID' : 'en-US', { 
       style: 'currency', currency: 'IDR', maximumFractionDigits: 0 
     }).format(val);
 
+  if (price <= 0) return null;
+
   return (
-    <Card className="border-zinc-100 bg-white shadow-selector rounded-3xl overflow-hidden">
+    <Card className="border-zinc-100 bg-white shadow-selector rounded-3xl overflow-hidden border">
       {!hideHeader && (
         <CardHeader className="bg-zinc-50/50 border-b border-zinc-100 py-6 px-8">
           <div className="flex justify-between items-start">
@@ -66,7 +85,7 @@ export function CreditCalculator({ initialPrice = 19425000, motorcycleName, hide
                 {t('calc_title')}
               </CardTitle>
               <CardDescription className="text-xs text-zinc-400 font-medium tracking-tight">
-                Estimasi pembayaran untuk <span className="text-black font-bold">{motorcycleName}</span>
+                {t('calc_subtitle')} <span className="text-black font-bold">{motorcycleName}</span>
               </CardDescription>
             </div>
           </div>
@@ -85,7 +104,7 @@ export function CreditCalculator({ initialPrice = 19425000, motorcycleName, hide
             onValueChange={(v) => setDpAmountInput(v[0])} 
             min={Math.round(price * 0.15)} 
             max={Math.round(price * 0.6)} 
-            step={500000}
+            step={100000}
             className="py-2"
           />
         </div>
@@ -98,7 +117,11 @@ export function CreditCalculator({ initialPrice = 19425000, motorcycleName, hide
             {[11, 17, 23, 29, 35].map((tVal) => (
               <button 
                 key={tVal}
-                className={`h-11 rounded-xl border text-xs font-bold transition-all ${tenure === tVal ? 'border-black bg-black text-white shadow-lg' : 'border-zinc-100 text-zinc-400 hover:border-zinc-300'}`}
+                aria-label={`Select tenure ${tVal} months`}
+                className={cn(
+                  "h-11 rounded-xl border text-xs font-bold transition-all",
+                  tenure === tVal ? 'border-black bg-black text-white shadow-lg' : 'border-zinc-100 text-zinc-400 hover:border-zinc-300'
+                )}
                 onClick={() => setTenure(tVal)}
               >
                 {tVal}x
