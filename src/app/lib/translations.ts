@@ -25,7 +25,10 @@ export const translations = {
     detail_back: 'Kembali ke Katalog',
     detail_technical: 'Spesifikasi Teknis',
     detail_features: 'Fitur Utama',
-    detail_apply: 'Ajukan Kredit',
+    detail_apply: 'Ajukan Kredit Sekarang',
+    detail_variant: 'Pilih Varian',
+    detail_otr: 'Harga OTR Jakarta',
+    detail_not_found: 'Kendaraan Tidak Ditemukan',
     calc_title: 'Simulator Kredit',
     calc_subtitle: 'Estimasi pembayaran untuk',
     calc_price: 'Harga OTR',
@@ -49,7 +52,15 @@ export const translations = {
     simulation_title: 'Simulasi Kredit',
     simulation_subtitle: 'Gunakan kalkulator untuk merencanakan kepemilikan.',
     learn_more: 'Pelajari lebih lanjut',
-    acquire: 'Miliki'
+    acquire: 'Miliki',
+    ai_lifestyle_label: 'Kebutuhan Gaya Hidup',
+    ai_lifestyle_placeholder: 'Contoh: Saya butuh motor untuk komuter harian di Jakarta yang macet, irit bensin, dan bisa bawa barang belanjaan.',
+    ai_budget_label: 'Anggaran Maksimal (Rp)',
+    ai_generate: 'Dapatkan Rekomendasi AI',
+    ai_recommended_models: 'Model Direkomendasikan',
+    ai_financial_structure: 'Struktur Kredit Ideal',
+    ai_analysis: 'Analisis Asisten AI',
+    ai_start_over: 'Coba Lagi'
   },
   en: {
     nav_catalog: 'Catalog',
@@ -76,7 +87,10 @@ export const translations = {
     detail_back: 'Back to Catalog',
     detail_technical: 'Technical Specifications',
     detail_features: 'Core Features',
-    detail_apply: 'Apply for Credit',
+    detail_apply: 'Apply for Credit Now',
+    detail_variant: 'Select Variant',
+    detail_otr: 'OTR Jakarta Price',
+    detail_not_found: 'Vehicle Not Found',
     calc_title: 'Credit Simulator',
     calc_subtitle: 'Estimating payments for',
     calc_price: 'OTR Price',
@@ -100,6 +114,14 @@ export const translations = {
     simulation_title: 'Credit Simulation',
     simulation_subtitle: 'Use calculator to plan ownership.',
     learn_more: 'Learn more',
-    acquire: 'Acquire'
+    acquire: 'Acquire',
+    ai_lifestyle_label: 'Lifestyle Needs',
+    ai_lifestyle_placeholder: 'Example: I need a motorcycle for daily commute in Jakarta traffic, fuel efficient, and can carry groceries.',
+    ai_budget_label: 'Max Budget (IDR)',
+    ai_generate: 'Get AI Recommendation',
+    ai_recommended_models: 'Recommended Models',
+    ai_financial_structure: 'Ideal Credit Structure',
+    ai_analysis: 'AI Assistant Analysis',
+    ai_start_over: 'Start Over'
   }
 };
